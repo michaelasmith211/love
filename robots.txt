@@ -6,3 +6,5 @@ Disallow: /assets/*.raw
 # Host & Sitemap Directives
 Host: lovecalc.click
 Sitemap: https://lovecalc.click/sitemap.xml
+Sitemap: https://lovecalc.click/sitemap_index.xml
+Sitemap: https://lovecalc.click/sitemap.txt
