@@ -1,7 +1,17 @@
-const CACHE_NAME = 'lovecalc-v1.0';
+const CACHE_NAME = 'lovecalc-v2.0';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './name-compatibility.html',
+  './zodiac-compatibility.html',
+  './birthday-compatibility.html',
+  './flames-game.html',
+  './love-percentage-chart.html',
+  './science-of-love.html',
+  './widget.html',
+  './about.html',
+  './privacy-policy.html',
+  './terms.html',
   './css/style.css',
   './js/calculator.js',
   './js/particles.js',

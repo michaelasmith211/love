@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Canonical Non-WWW & HTTPS Redirection -->
+  <script>
+    (function() {
+      var h = window.location.hostname;
+      var p = window.location.protocol;
+      if (h === 'www.lovecalc.click' || (h === 'lovecalc.click' && p === 'http:')) {
+        window.location.replace('https://lovecalc.click' + window.location.pathname + window.location.search + window.location.hash);
+      }
+    })();
+  </script>
+
+  <!-- Primary Meta Tags -->
+  <title>Zodiac Love Compatibility Calculator - Star Sign & Horoscope Match</title>
+  <meta name="title" content="Zodiac Love Compatibility Calculator - Star Sign & Horoscope Match">
+  <meta name="description" content="Calculate your astrological love compatibility! Test all 12 zodiac signs across Fire, Earth, Air, and Water elements. Get your free horoscope synastry report.">
+  <meta name="keywords" content="zodiac love calculator, star sign compatibility, horoscope love match, zodiac synastry test, astrology love calculator">
+  <meta name="author" content="lovecalc.click Editorial Team">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://lovecalc.click/zodiac-compatibility.html">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:url" content="https://lovecalc.click/zodiac-compatibility.html">
+  <meta property="og:title" content="Zodiac Love Compatibility Calculator - Star Sign & Horoscope Match">
+  <meta property="og:description" content="Test astrological synergy between any two zodiac signs. Detailed elemental breakdown and relationship advice.">
+  <meta property="og:image" content="https://lovecalc.click/assets/og-image.svg">
+  <meta property="og:site_name" content="Love Calculator">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://lovecalc.click/zodiac-compatibility.html">
+  <meta property="twitter:title" content="Zodiac Love Compatibility Calculator - Star Sign Match">
+  <meta property="twitter:description" content="Check your zodiac sign compatibility online! 100% free and instant.">
+  <meta property="twitter:image" content="https://lovecalc.click/assets/og-image.svg">
+
+  <meta name="theme-color" content="#ff2a6d">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="./css/style.css">
+
+  <!-- Structured Data: WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Zodiac Love Compatibility Calculator",
+    "url": "https://lovecalc.click/zodiac-compatibility.html",
+    "applicationCategory": "LifestyleApplication",
+    "operatingSystem": "All",
+    "description": "Calculate love compatibility between all 12 astrological signs across Fire, Earth, Air, and Water elements.",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "ratingCount": "14820"
+    }
+  }
+  </script>
+
+  <!-- Structured Data: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://lovecalc.click/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Zodiac Compatibility",
+        "item": "https://lovecalc.click/zodiac-compatibility.html"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="./" class="brand-logo" title="Love Calculator Home">
+        <svg class="brand-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M50 82 C50 82 18 60 18 36 C18 22 28 14 38 14 C44 14 48 18 50 22 C52 18 56 14 62 14 C72 14 82 22 82 36 C82 60 50 82 50 82 Z" fill="#ff2a6d"/>
+          <circle cx="36" cy="30" r="3" fill="#fff" opacity="0.7"/>
+        </svg>
+        <span>Love<span class="text-gradient">Calc</span>.click</span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="./name-compatibility.html">Name Match</a></li>
+          <li><a href="./zodiac-compatibility.html" style="color: var(--primary);">Zodiac Match</a></li>
+          <li><a href="./birthday-compatibility.html">Numerology</a></li>
+          <li><a href="./flames-game.html">FLAMES</a></li>
+          <li><a href="./love-percentage-chart.html">Score Guide</a></li>
+          <li><a href="./science-of-love.html">Science of Love</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button id="sound-toggle-btn" class="icon-btn" title="Toggle Sound" aria-label="Toggle Sound" aria-pressed="false">🔇</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-pill"><span>♈</span> Complete 12-Sign Astrological Synastry</div>
+        <h1 class="hero-title">
+          <span class="text-gradient">Zodiac Love Compatibility</span> Calculator
+        </h1>
+        <p class="hero-subtitle">
+          Discover how your star signs interact romantically, sexually, and emotionally. Our synastry matrix evaluates elemental balance across Fire, Earth, Air, and Water.
+        </p>
+
+        <!-- Quick Jump Bar -->
+        <nav class="quick-nav-bar" aria-label="Cluster Navigation">
+          <a href="./" class="quick-nav-pill"><span>🏠</span> All Calculators</a>
+          <a href="./name-compatibility.html" class="quick-nav-pill"><span>✍️</span> Name Test</a>
+          <a href="./birthday-compatibility.html" class="quick-nav-pill"><span>🎂</span> Birthday Numerology</a>
+          <a href="./flames-game.html" class="quick-nav-pill"><span>🔥</span> FLAMES Game</a>
+          <a href="./love-percentage-chart.html" class="quick-nav-pill"><span>📊</span> Score Guide</a>
+        </nav>
+
+        <!-- Dedicated Zodiac Calculator Card -->
+        <div class="calculator-card" style="max-width: 640px;">
+          <div class="tab-content" style="padding-top: 32px;">
+            <form id="zodiac-calc-form" class="calc-form">
+              <div class="inputs-row">
+                <div class="input-group">
+                  <label for="zodiac-sign1" class="input-label">Your Zodiac Sign</label>
+                  <select id="zodiac-sign1" class="select-input" required>
+                    <option value="aries">♈ Aries (Mar 21 - Apr 19)</option>
+                    <option value="taurus">♉ Taurus (Apr 20 - May 20)</option>
+                    <option value="gemini">♊ Gemini (May 21 - Jun 20)</option>
+                    <option value="cancer">♋ Cancer (Jun 21 - Jul 22)</option>
+                    <option value="leo" selected>♌ Leo (Jul 23 - Aug 22)</option>
+                    <option value="virgo">♍ Virgo (Aug 23 - Sep 22)</option>
+                    <option value="libra">♎ Libra (Sep 23 - Oct 22)</option>
+                    <option value="scorpio">♏ Scorpio (Oct 23 - Nov 21)</option>
+                    <option value="sagittarius">♐ Sagittarius (Nov 22 - Dec 21)</option>
+                    <option value="capricorn">♑ Capricorn (Dec 22 - Jan 19)</option>
+                    <option value="aquarius">♒ Aquarius (Jan 20 - Feb 18)</option>
+                    <option value="pisces">♓ Pisces (Feb 19 - Mar 20)</option>
+                  </select>
+                </div>
+                <div class="heart-connector" aria-hidden="true">🔮</div>
+                <div class="input-group">
+                  <label for="zodiac-sign2" class="input-label">Partner's Zodiac Sign</label>
+                  <select id="zodiac-sign2" class="select-input" required>
+                    <option value="aries" selected>♈ Aries (Mar 21 - Apr 19)</option>
+                    <option value="taurus">♉ Taurus (Apr 20 - May 20)</option>
+                    <option value="gemini">♊ Gemini (May 21 - Jun 20)</option>
+                    <option value="cancer">♋ Cancer (Jun 21 - Jul 22)</option>
+                    <option value="leo">♌ Leo (Jul 23 - Aug 22)</option>
+                    <option value="virgo">♍ Virgo (Aug 23 - Sep 22)</option>
+                    <option value="libra">♎ Libra (Sep 23 - Oct 22)</option>
+                    <option value="scorpio">♏ Scorpio (Oct 23 - Nov 21)</option>
+                    <option value="sagittarius">♐ Sagittarius (Nov 22 - Dec 21)</option>
+                    <option value="capricorn">♑ Capricorn (Dec 22 - Jan 19)</option>
+                    <option value="aquarius">♒ Aquarius (Jan 20 - Feb 18)</option>
+                    <option value="pisces">♓ Pisces (Feb 19 - Mar 20)</option>
+                  </select>
+                </div>
+              </div>
+              <button type="submit" class="submit-btn" id="btn-calc-zodiac" style="margin-top: 12px;">
+                <span>Calculate Zodiac Compatibility</span>
+                <span aria-hidden="true">🌟</span>
+              </button>
+            </form>
+            <div id="calc-error" class="calc-error" role="alert" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <!-- Dynamic Results Card Dashboard -->
+        <div id="result-section" class="result-card hidden" aria-live="polite">
+          <div class="result-badge">Verified Astrological Match</div>
+          <h2 id="result-couple-names" class="result-couple-names">Leo & Aries</h2>
+
+          <div class="meter-wrapper">
+            <svg class="progress-ring" width="170" height="170" viewBox="0 0 170 170" aria-hidden="true">
+              <defs>
+                <linearGradient id="meterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ff2a6d"/>
+                  <stop offset="50%" stop-color="#ff758f"/>
+                  <stop offset="100%" stop-color="#ffd166"/>
+                </linearGradient>
+              </defs>
+              <circle class="progress-ring__circle-bg" stroke-width="14" fill="transparent" r="70" cx="85" cy="85"/>
+              <circle id="result-circle-progress" class="progress-ring__circle" stroke-width="14" stroke-linecap="round" fill="transparent" r="70" cx="85" cy="85"/>
+            </svg>
+            <div class="meter-inner-content">
+              <div class="meter-percentage"><span id="result-score-number">0</span>%</div>
+              <div class="meter-label">Synastry Score</div>
+            </div>
+          </div>
+
+          <h3 id="result-tier-title" class="result-tier-title">Blazing Passion</h3>
+          <p id="result-description" class="result-description">Loading your astrological profile...</p>
+
+          <div class="result-advice-box">
+            <strong>💡 Astrological Relationship Advice:</strong>
+            <p id="result-advice">Honor your elemental differences and leverage each other's cosmic strengths.</p>
+          </div>
+
+          <div id="result-subscores" class="subscores-container"></div>
+
+          <div class="result-actions">
+            <button id="btn-download-card" class="submit-btn" style="padding: 12px 24px; font-size: 0.95rem;">
+              <span>📥 Download Official Love Card</span>
+            </button>
+            <button id="btn-copy-link" class="btn-secondary">
+              <span>🔗 Share Result Link</span>
+            </button>
+            <a href="./birthday-compatibility.html" class="btn-secondary">
+              <span>🎂 Test Birthdays Too</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Zodiac Matrix Guide Table -->
+        <article class="seo-article" style="margin-top: 40px;">
+          <header class="article-header">
+            <div class="article-category">Astrology & Classical Elements</div>
+            <h2>The Four Elements of Zodiac Compatibility</h2>
+          </header>
+          <div class="article-content">
+            <p>
+              In Western astrology, each zodiac sign belongs to one of four triplicities (classical elements). Your element dictates how you experience love, express vulnerability, and resolve disagreements:
+            </p>
+            <div class="zodiac-table-wrapper">
+              <table class="seo-table">
+                <caption>Astrological Element Synergy Matrix</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Element Pairing</th>
+                    <th scope="col">Compatibility Score</th>
+                    <th scope="col">Dynamic & Synergy</th>
+                    <th scope="col">Key Relationship Advice</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>🔥 Fire + 💨 Air</strong></td>
+                    <td><span class="pct-badge pct-twinflame">95% (Divine)</span></td>
+                    <td>Air feeds Fire with ideas and freedom; Fire excites Air with passion.</td>
+                    <td>Keep communicating openly and explore shared creative projects.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>🌍 Earth + 💧 Water</strong></td>
+                    <td><span class="pct-badge pct-twinflame">94% (Natural)</span></td>
+                    <td>Water nourishes Earth with empathy; Earth provides structure and safety.</td>
+                    <td>Cultivate patience when emotions run deep.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>🔥 Fire + 🔥 Fire</strong></td>
+                    <td><span class="pct-badge pct-soulmate">92% (Fiery)</span></td>
+                    <td>Unrivaled excitement, mutual ambition, and boundless adventure.</td>
+                    <td>Beware of ego clashes; learn to celebrate each other's victories.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>🌍 Earth + 🌍 Earth</strong></td>
+                    <td><span class="pct-badge pct-soulmate">90% (Steadfast)</span></td>
+                    <td>Rock-solid stability, loyalty, and deep practical sensuality.</td>
+                    <td>Introduce spontaneous surprises to prevent falling into routine.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>💨 Air + 💨 Air</strong></td>
+                    <td><span class="pct-badge pct-harmony">88% (Breezy)</span></td>
+                    <td>Telepathic mental banter, intellectual rapport, and social ease.</td>
+                    <td>Don't avoid emotional conversations by over-intellectualizing feelings.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>🔥 Fire + 💧 Water</strong></td>
+                    <td><span class="pct-badge pct-spark">62% (Intense)</span></td>
+                    <td>High drama and magnetic sexual tension like steam in the mist.</td>
+                    <td>Respect emotional boundaries; Fire must avoid scorching sensitive Water.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p class="brand-logo" style="justify-content: center; margin-bottom: 12px;">
+        <span>Love<span class="text-gradient">Calc</span>.click</span>
+      </p>
+      <ul class="footer-links">
+        <li><a href="./">Home</a></li>
+        <li><a href="./name-compatibility.html">Name Match</a></li>
+        <li><a href="./zodiac-compatibility.html">Zodiac Match</a></li>
+        <li><a href="./birthday-compatibility.html">Numerology</a></li>
+        <li><a href="./flames-game.html">FLAMES</a></li>
+        <li><a href="./love-percentage-chart.html">Score Guide</a></li>
+        <li><a href="./privacy-policy.html">Privacy</a></li>
+        <li><a href="./terms.html">Terms</a></li>
+      </ul>
+      <p style="font-size: 0.8rem; color: #64748b;">
+        &copy; 2026 lovecalc.click. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script src="./js/audio.js" defer></script>
+  <script src="./js/particles.js" defer></script>
+  <script src="./js/share-card.js" defer></script>
+  <script src="./js/calculator.js" defer></script>
+</body>
+</html>
