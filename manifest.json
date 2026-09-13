@@ -1,0 +1,19 @@
+{
+  "name": "Love Calculator - Compatibility & True Love Meter",
+  "short_name": "LoveCalc",
+  "description": "Free Love Calculator and Compatibility Test. Calculate real name match, zodiac compatibility, birthday numerology and FLAMES test.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d0914",
+  "theme_color": "#ff2a6d",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./assets/favicon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "entertainment", "social"]
+}

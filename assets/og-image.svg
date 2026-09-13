@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d0714"/>
+      <stop offset="50%" stop-color="#260e36"/>
+      <stop offset="100%" stop-color="#12061c"/>
+    </linearGradient>
+    <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff2a6d"/>
+      <stop offset="50%" stop-color="#ff758f"/>
+      <stop offset="100%" stop-color="#ffd166"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="25" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+
+  <!-- Decorative Orbs -->
+  <circle cx="200" cy="150" r="180" fill="#ff2a6d" opacity="0.15" filter="url(#glow)"/>
+  <circle cx="1000" cy="480" r="220" fill="#9b5de5" opacity="0.15" filter="url(#glow)"/>
+
+  <!-- Heart Shape -->
+  <g transform="translate(600, 240) scale(3.5)" filter="url(#glow)">
+    <path d="M0 24 C0 24 -32 2 -32 -22 C-32 -36 -22 -44 -12 -44 C-6 -44 -2 -40 0 -36 C2 -40 6 -44 12 -44 C22 -44 32 -36 32 -22 C32 2 0 24 0 24 Z" 
+          fill="url(#heartGrad)"/>
+  </g>
+
+  <!-- Title Text -->
+  <text x="600" y="420" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="64" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="-1">
+    Love<tspan fill="#ff2a6d">Calculator</tspan>.app
+  </text>
+
+  <!-- Subtitle -->
+  <text x="600" y="480" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="500" fill="#cbd5e1" text-anchor="middle">
+    Free Love Compatibility Test &amp; True Match Percentage
+  </text>
+
+  <!-- Badges -->
+  <rect x="350" y="525" width="500" height="44" rx="22" fill="rgba(255, 42, 109, 0.15)" stroke="#ff2a6d" stroke-width="1.5"/>
+  <text x="600" y="554" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" fill="#ffd166" text-anchor="middle">
+    ✨ Name Match • Zodiac Compatibility • Birthday Numerology • FLAMES
+  </text>
+</svg>

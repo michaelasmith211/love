@@ -1,0 +1,16 @@
+{
+  "name": "love-calculator",
+  "version": "1.0.0",
+  "description": "Love Calculator - Free Love Compatibility Test & True Match Percentage",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "love-calculator",
+    "seo",
+    "compatibility-test"
+  ],
+  "author": "LoveCalculator.app",
+  "license": "MIT"
+}

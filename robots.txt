@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /assets/*.psd
+Disallow: /assets/*.raw
+
+# Sitemaps
+Sitemap: https://lovecalculator.app/sitemap.xml
