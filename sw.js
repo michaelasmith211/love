@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lovecalc-v2.0';
+const CACHE_NAME = 'lovecalc-v3.0';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -8,10 +8,17 @@ const ASSETS_TO_CACHE = [
   './flames-game.html',
   './love-percentage-chart.html',
   './science-of-love.html',
+  './methodology.html',
+  './faq.html',
   './widget.html',
   './about.html',
+  './contact.html',
+  './editorial-policy.html',
+  './disclaimer.html',
+  './sitemap.html',
   './privacy-policy.html',
   './terms.html',
+  './404.html',
   './css/style.css',
   './js/calculator.js',
   './js/particles.js',

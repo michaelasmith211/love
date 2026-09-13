@@ -49,9 +49,15 @@ const server = http.createServer((req, res) => {
   fs.readFile(filePath, (err, content) => {
     if (err) {
       if (err.code === 'ENOENT') {
-        // Fallback 404
-        res.writeHead(404, { 'Content-Type': 'text/html; charset=UTF-8' });
-        res.end('<h1>404 Not Found</h1><p>The requested resource could not be found.</p>');
+        const notFoundPath = path.join(PUBLIC_DIR, '404.html');
+        if (fs.existsSync(notFoundPath)) {
+          const notFoundHtml = fs.readFileSync(notFoundPath);
+          res.writeHead(404, { 'Content-Type': 'text/html; charset=UTF-8' });
+          res.end(notFoundHtml);
+        } else {
+          res.writeHead(404, { 'Content-Type': 'text/html; charset=UTF-8' });
+          res.end('<h1>404 Not Found</h1>');
+        }
       } else {
         res.writeHead(500, { 'Content-Type': 'text/plain; charset=UTF-8' });
         res.end(`Server Error: ${err.code}`);

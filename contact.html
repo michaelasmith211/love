@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <script>
+    (function() {
+      var h = window.location.hostname;
+      var p = window.location.protocol;
+      if (h === 'www.lovecalc.click' || (h === 'lovecalc.click' && p === 'http:')) {
+        window.location.replace('https://lovecalc.click' + window.location.pathname + window.location.search + window.location.hash);
+      }
+    })();
+  </script>
+
+  <title>Contact Us - Love Calculator Support & Inquiries</title>
+  <meta name="title" content="Contact Us - Love Calculator Support & Inquiries">
+  <meta name="description" content="Get in touch with the lovecalc.click editorial and development team. Send questions, feedback, partnership proposals, or widget inquiries.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://lovecalc.click/contact.html">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://lovecalc.click/contact.html">
+  <meta property="og:title" content="Contact Us - Love Calculator Support">
+  <meta property="og:description" content="Reach our support and editorial team. We reply within 24 hours.">
+  <meta property="og:image" content="https://lovecalc.click/assets/og-image.svg">
+
+  <meta name="theme-color" content="#ff2a6d">
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="./css/style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact Love Calculator Team",
+    "url": "https://lovecalc.click/contact.html",
+    "description": "Contact page for lovecalc.click providing direct email support, inquiry forms, and customer service SLA."
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://lovecalc.click/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Contact Us",
+        "item": "https://lovecalc.click/contact.html"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="./" class="brand-logo" title="Love Calculator Home">
+        <svg class="brand-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M50 82 C50 82 18 60 18 36 C18 22 28 14 38 14 C44 14 48 18 50 22 C52 18 56 14 62 14 C72 14 82 22 82 36 C82 60 50 82 50 82 Z" fill="#ff2a6d"/>
+          <circle cx="36" cy="30" r="3" fill="#fff" opacity="0.7"/>
+        </svg>
+        <span>Love<span class="text-gradient">Calc</span>.click</span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="./name-compatibility.html">Name Match</a></li>
+          <li><a href="./zodiac-compatibility.html">Zodiac Match</a></li>
+          <li><a href="./birthday-compatibility.html">Numerology</a></li>
+          <li><a href="./flames-game.html">FLAMES</a></li>
+          <li><a href="./about.html">About</a></li>
+          <li><a href="./contact.html" style="color: var(--primary);">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button id="sound-toggle-btn" class="icon-btn" title="Toggle Sound" aria-label="Toggle Sound" aria-pressed="false">🔇</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-pill"><span>📬</span> 24-Hour Response Guarantee</div>
+        <h1 class="hero-title">
+          Contact the <span class="text-gradient">Love Calculator</span> Team
+        </h1>
+        <p class="hero-subtitle">
+          Have a question about our compatibility algorithms, feedback on your test results, or a press inquiry? We would love to hear from you.
+        </p>
+
+        <!-- Contact Form Card -->
+        <div class="calculator-card" style="max-width: 680px; text-align: left; padding: 32px;">
+          <form id="contact-form" class="calc-form" onsubmit="event.preventDefault(); document.getElementById('contact-success').style.display='block'; this.reset();">
+            <div class="inputs-row" style="grid-template-columns: 1fr 1fr;">
+              <div class="input-group">
+                <label for="contact-name" class="input-label">Your Name</label>
+                <input type="text" id="contact-name" class="text-input" placeholder="e.g. Sarah Jenkins" required>
+              </div>
+              <div class="input-group">
+                <label for="contact-email" class="input-label">Email Address</label>
+                <input type="email" id="contact-email" class="text-input" placeholder="sarah@example.com" required>
+              </div>
+            </div>
+
+            <div class="input-group" style="margin-top: 16px;">
+              <label for="contact-subject" class="input-label">Subject</label>
+              <select id="contact-subject" class="select-input">
+                <option value="feedback">General Feedback & Suggestion</option>
+                <option value="bug">Report a Bug / Calculation Issue</option>
+                <option value="widget">Embed Widget & Partnership Inquiry</option>
+                <option value="press">Press & Media Query</option>
+                <option value="privacy">Privacy & Data Question</option>
+              </select>
+            </div>
+
+            <div class="input-group" style="margin-top: 16px;">
+              <label for="contact-message" class="input-label">Your Message</label>
+              <textarea id="contact-message" class="embed-textarea" style="height: 140px; font-family: inherit; font-size: 1rem; color: #fff;" placeholder="How can we help you today?" required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" style="width: 100%; margin-top: 14px;">
+              <span>Send Message</span>
+              <span aria-hidden="true">✉️</span>
+            </button>
+          </form>
+
+          <div id="contact-success" style="display: none; margin-top: 18px; padding: 14px 18px; background: rgba(6, 214, 160, 0.15); border: 1px solid #06d6a0; border-radius: var(--radius-sm); color: #06d6a0; text-align: center; font-weight: 600;">
+            ✅ Thank you! Your message has been received. Our team will get back to you within 24 hours.
+          </div>
+        </div>
+
+        <div class="features-grid" style="margin-top: 40px;">
+          <div class="feature-card">
+            <span class="feature-icon">📧</span>
+            <h3>Direct Email</h3>
+            <p>Write directly to our inbox: <strong>support@lovecalc.click</strong> for prompt assistance.</p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">⏱️</span>
+            <h3>Response Time</h3>
+            <p>We review every inquiry and typically respond within 12 to 24 business hours.</p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">🛡️</span>
+            <h3>Privacy First</h3>
+            <p>Your email address is used strictly to answer your question. Never shared or added to lists.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p class="brand-logo" style="justify-content: center; margin-bottom: 12px;">
+        <span>Love<span class="text-gradient">Calc</span>.click</span>
+      </p>
+      <ul class="footer-links" style="flex-wrap: wrap;">
+        <li><a href="./">Home</a></li>
+        <li><a href="./name-compatibility.html">Name Match</a></li>
+        <li><a href="./zodiac-compatibility.html">Zodiac Match</a></li>
+        <li><a href="./birthday-compatibility.html">Numerology</a></li>
+        <li><a href="./flames-game.html">FLAMES</a></li>
+        <li><a href="./about.html">About</a></li>
+        <li><a href="./contact.html">Contact</a></li>
+        <li><a href="./privacy-policy.html">Privacy</a></li>
+        <li><a href="./terms.html">Terms</a></li>
+      </ul>
+      <p style="font-size: 0.8rem; color: #64748b;">&copy; 2026 lovecalc.click. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="./js/audio.js" defer></script>
+  <script src="./js/particles.js" defer></script>
+</body>
+</html>
