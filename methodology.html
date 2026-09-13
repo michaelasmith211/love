@@ -67,6 +67,30 @@
     ]
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is the love calculation random or deterministic?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It is 100% deterministic. The algorithm computes identical results every single time for the same inputs, ensuring fairness and mathematical consistency."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does order of names affect the score?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The sorting and hashing equations are commutative, ensuring Name A + Name B always equals Name B + Name A."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <canvas id="ambient-canvas" aria-hidden="true"></canvas>
