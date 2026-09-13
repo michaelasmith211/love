@@ -43,8 +43,8 @@ const ELEMENT_COMPATIBILITY = {
 // 2. NAME COMPATIBILITY ALGORITHM
 // ==========================================
 function calculateNameLove(rawName1, rawName2) {
-  const n1 = rawName1.trim().toLowerCase().replace(/[^a-z]/g, '');
-  const n2 = rawName2.trim().toLowerCase().replace(/[^a-z]/g, '');
+  const n1 = rawName1.trim().toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
+  const n2 = rawName2.trim().toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
 
   if (!n1 || !n2) {
     return { error: 'Please enter both names to test compatibility.' };
@@ -243,8 +243,8 @@ function calculateBirthdayLove(dob1, dob2) {
 // 5. CLASSIC FLAMES GAME ENGINE
 // ==========================================
 function calculateFLAMES(name1, name2) {
-  let s1 = name1.toLowerCase().replace(/[^a-z]/g, '').split('');
-  let s2 = name2.toLowerCase().replace(/[^a-z]/g, '').split('');
+  let s1 = name1.toLowerCase().replace(/[^\p{L}\p{N}]/gu, '').split('');
+  let s2 = name2.toLowerCase().replace(/[^\p{L}\p{N}]/gu, '').split('');
 
   if (s1.length === 0 || s2.length === 0) {
     return { error: 'Please enter both names for the FLAMES test.' };

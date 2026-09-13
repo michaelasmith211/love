@@ -72,7 +72,7 @@
     if (targetCode === 'en') {
       return origin + '/' + (pageName ? pageName : '');
     } else {
-      return origin + '/' + targetCode + '/' + (pageName ? pageName : '');
+      return origin + '/' + targetCode + '/';
     }
   }
 

@@ -75,6 +75,13 @@
           <li><a href="./about.html">About</a></li>
         </ul>
       </nav>
+      <div class="header-actions" style="display: flex; align-items: center; gap: 10px;">
+        <button id="btn-lang-selector" class="lang-selector-btn" aria-label="Change Language">
+          <span class="lang-icon" aria-hidden="true">🌐</span>
+          <span class="lang-current-code">EN</span>
+          <span class="lang-chevron" aria-hidden="true">▼</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -108,5 +115,17 @@
       <p style="font-size: 0.8rem; color: #64748b;">&copy; 2026 lovecalc.click. All rights reserved.</p>
     </div>
   </footer>
+  <!-- Language Switcher Modal -->
+  <div id="lang-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="lang-modal-title">
+    <div class="modal-content lang-modal-content">
+      <button id="close-lang-modal" class="modal-close" aria-label="Close Language Modal">&times;</button>
+      <div class="lang-modal-header">
+        <h3 id="lang-modal-title">Select Your Language</h3>
+        <input type="search" id="lang-search-input" placeholder="Search 40 languages..." class="lang-search-box" autocomplete="off">
+      </div>
+      <div class="lang-grid" id="lang-grid-container"></div>
+    </div>
+  </div>
+  <script src="./js/i18n.js" defer></script>
 </body>
 </html>
