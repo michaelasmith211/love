@@ -1,4 +1,4 @@
-# 💖 Love Calculator - 100% Free True Love & Compatibility Test
+# 💖 Love Calculator - True Love & Relationship Compatibility Test
 
 An ultra-fast, SEO-optimized, and full-featured Love Compatibility Suite designed to achieve the #1 ranking on Google. Built with zero runtime dependencies for lightning-fast Core Web Vitals performance.
 

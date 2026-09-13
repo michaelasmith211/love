@@ -194,7 +194,7 @@ const NUMEROLOGY_TRAITS = {
   2: { archetype: 'The Peacemaker', vibe: 'Empathetic, diplomatic, gentle' },
   3: { archetype: 'The Creative', vibe: 'Expressive, joyful, romantic' },
   4: { archetype: 'The Builder', vibe: 'Loyal, stable, structured' },
-  5: { archetype: 'The Free Spirit', vibe: 'Adventurous, curious, adaptable' },
+  5: { archetype: 'The Adventurer', vibe: 'Bold, curious, adaptable' },
   6: { archetype: 'The Nurturer', vibe: 'Loving, protective, harmonious' },
   7: { archetype: 'The Seeker', vibe: 'Mystical, analytical, philosophical' },
   8: { archetype: 'The Achiever', vibe: 'Powerful, driven, goal-oriented' },

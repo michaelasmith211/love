@@ -51,13 +51,22 @@ html {
   scroll-behavior: smooth;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: 80px;
 }
 
 body {
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
   background: radial-gradient(circle at 50% 0%, #2a0e36 0%, #0c0714 60%);
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 /* Background Particle Canvas */
@@ -319,15 +328,26 @@ body {
 
 .text-input, .select-input {
   width: 100%;
-  padding: 14px 18px;
+  min-height: 48px; /* Touch target minimum */
+  padding: 12px 18px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-md);
   color: var(--text-main);
-  font-size: 1.05rem;
+  font-size: 16px !important; /* CRITICAL: Prevents iOS Safari input focus auto-zoom */
   font-family: inherit;
   transition: all var(--transition-fast);
   outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.select-input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ff2a6d' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px;
+  padding-right: 44px;
 }
 
 .select-input option {
@@ -337,8 +357,8 @@ body {
 
 .text-input:focus, .select-input:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 15px rgba(255, 42, 109, 0.3);
-  background: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 0 15px rgba(255, 42, 109, 0.35);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .heart-connector {
@@ -1017,6 +1037,189 @@ body {
   background: rgba(77, 171, 247, 0.2);
   color: #4dabf7;
   border: 1px solid #4dabf7;
+}
+
+/* ==========================================================================
+   ADVANCED RESPONSIVE & CROSS-BROWSER SUITE
+   Supports 320px (iPhone SE/Galaxy Fold) up to 4K, Safari, Chrome, Firefox, Edge
+   ========================================================================== */
+
+/* Touch Ergonomics & Elimination of 300ms Click Delay */
+.tab-btn, .submit-btn, .btn-secondary, .faq-question, .quick-nav-pill, .icon-btn {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 48px; /* Accessible minimum touch target */
+}
+
+/* Tablets & Small Laptops (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .container {
+    max-width: 920px;
+  }
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Tablets (max-width: 768px) */
+@media (max-width: 768px) {
+  .site-header {
+    padding: 14px 0;
+  }
+  .brand-logo {
+    font-size: 1.25rem;
+  }
+  .nav-links {
+    display: none;
+  }
+  .hero-section {
+    padding: 32px 0 16px;
+  }
+  .hero-title {
+    font-size: clamp(1.85rem, 6vw, 2.6rem);
+  }
+  .hero-subtitle {
+    font-size: 0.95rem;
+    padding: 0 8px;
+    margin-bottom: 24px;
+  }
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .seo-article {
+    padding: 24px 18px;
+  }
+}
+
+/* Mobile Devices (max-width: 640px) */
+@media (max-width: 640px) {
+  .container {
+    padding: 0 16px;
+  }
+  .calculator-card {
+    border-radius: var(--radius-md);
+    margin: 0 auto 32px;
+  }
+  .tab-content {
+    padding: 24px 16px;
+  }
+  .inputs-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .heart-connector {
+    font-size: 1.5rem;
+  }
+  .result-card {
+    padding: 28px 16px;
+    border-radius: var(--radius-md);
+    margin-bottom: 40px;
+  }
+  .result-couple-names {
+    font-size: 1.5rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  .result-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+  .result-actions button,
+  .result-actions a {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
+  }
+  .modal-content {
+    padding: 24px 18px;
+    margin: 0 12px;
+  }
+  .footer-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .zodiac-table-wrapper {
+    margin: 16px 0 24px;
+  }
+}
+
+/* Ultra-Narrow Screens (max-width: 380px: iPhone SE, Fold) */
+@media (max-width: 380px) {
+  .container {
+    padding: 0 10px;
+  }
+  .hero-title {
+    font-size: 1.6rem;
+  }
+  .tab-btn {
+    min-width: 95px;
+    padding: 10px 6px;
+    font-size: 0.78rem;
+    gap: 4px;
+  }
+  .meter-wrapper {
+    width: 135px;
+    height: 135px;
+  }
+  .progress-ring {
+    width: 135px;
+    height: 135px;
+  }
+  .meter-percentage {
+    font-size: 2.1rem;
+  }
+  .quick-nav-pill {
+    padding: 5px 8px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Smooth Horizontal Scroll for Tables */
+.zodiac-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 20px 0 32px;
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.4);
+}
+
+.zodiac-table-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+.zodiac-table-wrapper::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+}
+.zodiac-table-wrapper::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 3px;
+}
+
+.seo-table {
+  min-width: 520px; /* Prevents text squishing on mobile screens */
+}
+
+/* Accessible Focus Outlines */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+/* Print Styles */
+@media print {
+  #ambient-canvas, .site-header, .site-footer, .result-actions, .quick-nav-bar {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+    color: #000;
+  }
+  .result-card {
+    border: 2px solid #000;
+    box-shadow: none;
+    color: #000;
+  }
 }
 
 .sr-only {

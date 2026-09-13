@@ -135,7 +135,7 @@ class LoveShareCard {
     ctx.textAlign = 'center';
     ctx.fillStyle = '#a0aec0';
     ctx.font = '500 22px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-    ctx.fillText('Calculate yours at lovecalc.click ❤️ 100% Free', width / 2, 1220);
+    ctx.fillText('Calculate yours at lovecalc.click ❤️ True Love Match', width / 2, 1220);
 
     return this.canvas.toDataURL('image/png');
   }
