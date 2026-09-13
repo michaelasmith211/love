@@ -20,6 +20,18 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
+  const host = (req.headers.host || '').toLowerCase();
+  
+  // 301 Permanent Redirect: www.lovecalc.click -> https://lovecalc.click
+  if (host.startsWith('www.')) {
+    const cleanHost = host.replace(/^www\./, '');
+    res.writeHead(301, {
+      'Location': `https://${cleanHost}${req.url}`,
+      'Cache-Control': 'public, max-age=31536000'
+    });
+    return res.end();
+  }
+
   // Normalize URL to remove query parameters and hash
   const urlPath = req.url.split('?')[0];
   let safePath = path.normalize(decodeURIComponent(urlPath)).replace(/^(\.\.[\/\\])+/, '');

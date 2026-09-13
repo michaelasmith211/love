@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Redirect www.lovecalc.click to naked https://lovecalc.click
+  RewriteCond %{HTTP_HOST} ^www\.lovecalc\.click$ [NC]
+  RewriteRule ^(.*)$ https://lovecalc.click/$1 [R=301,L]
+
+  # Force HTTPS
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP_HOST} ^lovecalc\.click$ [NC]
+  RewriteRule ^(.*)$ https://lovecalc.click/$1 [R=301,L]
+</IfModule>

@@ -3,5 +3,6 @@ Allow: /
 Disallow: /assets/*.psd
 Disallow: /assets/*.raw
 
-# Sitemaps
-Sitemap: https://lovecalculator.app/sitemap.xml
+# Host & Sitemap Directives
+Host: lovecalc.click
+Sitemap: https://lovecalc.click/sitemap.xml

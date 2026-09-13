@@ -1,0 +1,4 @@
+# 301 Permanent Redirects: www to non-www and enforce HTTPS
+http://www.lovecalc.click/*   https://lovecalc.click/:splat   301!
+https://www.lovecalc.click/*  https://lovecalc.click/:splat   301!
+http://lovecalc.click/*       https://lovecalc.click/:splat   301!

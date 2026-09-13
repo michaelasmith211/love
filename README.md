@@ -2,7 +2,7 @@
 
 An ultra-fast, SEO-optimized, and full-featured Love Compatibility Suite designed to achieve the #1 ranking on Google. Built with zero runtime dependencies for lightning-fast Core Web Vitals performance.
 
-🌐 **Live Demo / Preview**: [https://lovecalculator.app](https://lovecalculator.app)
+🌐 **Live Demo / Preview**: [https://lovecalc.click](https://lovecalc.click)
 
 ---
 

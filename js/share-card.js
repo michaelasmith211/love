@@ -135,7 +135,7 @@ class LoveShareCard {
     ctx.textAlign = 'center';
     ctx.fillStyle = '#a0aec0';
     ctx.font = '500 22px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-    ctx.fillText('Calculate yours at LoveCalculator.app ❤️ 100% Free', width / 2, 1220);
+    ctx.fillText('Calculate yours at lovecalc.click ❤️ 100% Free', width / 2, 1220);
 
     return this.canvas.toDataURL('image/png');
   }
@@ -186,7 +186,7 @@ class LoveShareCard {
         await navigator.share({
           files: [file],
           title: `${data.name1} & ${data.name2} Love Test - ${data.percentage}%`,
-          text: `Check out our ${data.percentage}% match on the Love Calculator! Calculate yours: https://lovecalculator.app`
+          text: `Check out our ${data.percentage}% match on the Love Calculator! Calculate yours: https://lovecalc.click`
         });
         return { shared: true };
       } catch (err) {

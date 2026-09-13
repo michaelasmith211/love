@@ -553,7 +553,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (embedBtn && embedModal) {
     embedBtn.addEventListener('click', () => {
-      const code = `<iframe src="https://lovecalculator.app/" width="100%" height="700" frameborder="0" style="border:none;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.3);" title="Love Calculator"></iframe>\n<p style="font-size:12px;text-align:center;"><a href="https://lovecalculator.app" target="_blank" rel="noopener">Powered by LoveCalculator.app</a></p>`;
+      const code = `<iframe src="https://lovecalc.click/" width="100%" height="700" frameborder="0" style="border:none;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.3);" title="Love Calculator"></iframe>\n<p style="font-size:12px;text-align:center;"><a href="https://lovecalc.click" target="_blank" rel="noopener">Powered by lovecalc.click</a></p>`;
       if (embedTextarea) embedTextarea.value = code;
       embedModal.classList.remove('hidden');
     });

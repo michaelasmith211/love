@@ -34,7 +34,7 @@
 
   <!-- Title Text -->
   <text x="600" y="420" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="64" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="-1">
-    Love<tspan fill="#ff2a6d">Calculator</tspan>.app
+    Love<tspan fill="#ff2a6d">Calc</tspan>.click
   </text>
 
   <!-- Subtitle -->
