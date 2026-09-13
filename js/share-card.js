@@ -174,6 +174,13 @@ class LoveShareCard {
   }
 
   async downloadOrShare(data, fileName = 'love-compatibility-card.png') {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'share_love_card', {
+        score: data.percentage,
+        event_category: 'engagement'
+      });
+    }
+
     const dataUrl = this.generate(data);
 
     // Convert dataUrl to Blob for Web Share API

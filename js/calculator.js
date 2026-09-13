@@ -427,6 +427,14 @@ document.addEventListener('DOMContentLoaded', () => {
       window.soundEngine.playHeartbeat();
     }
 
+    // GA4 Custom Event Tracking
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'calculate_compatibility', {
+        calculation_type: meta.type || 'unknown',
+        event_category: 'engagement'
+      });
+    }
+
     // Smooth scroll down to result
     resultCard.classList.remove('hidden');
     resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
