@@ -96,6 +96,7 @@ for l in languages:
     html = html.replace('href="./assets/', 'href="../assets/')
     html = html.replace('src="./js/', 'src="../js/')
     html = html.replace('src="./assets/', 'src="../assets/')
+    html = html.replace('srcset="./assets/', 'srcset="../assets/')
     html = html.replace('href="./"', f'href="../{code}/"')
     
     # Update internal page navigation links so they point to root pages correctly
@@ -302,9 +303,10 @@ for l in languages:
         if "footer_copy" in op:
             html = re.sub(r'&copy; 2026 lovecalc\.click\..*?</p>', f'{op["footer_copy"]}</p>', html)
 
-    # Update JSON-LD inLanguage for WebApplication & WebSite
+    # Update JSON-LD inLanguage for WebApplication, WebSite, and ImageObject
     html = html.replace('"@type": "WebApplication",', f'"@type": "WebApplication",\n    "inLanguage": "{code}",')
     html = html.replace('"@type": "WebSite",', f'"@type": "WebSite",\n    "inLanguage": "{code}",')
+    html = html.replace('"@type": "ImageObject",', f'"@type": "ImageObject",\n    "inLanguage": "{code}",')
     
     target_file = os.path.join(code, "index.html")
     with open(target_file, "w", encoding="utf-8") as f:

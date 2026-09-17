@@ -1389,3 +1389,98 @@ body {
   right: auto;
   left: 18px;
 }
+
+/* ==========================================================================
+   INFOGRAPHIC & VISUAL SEO STYLES
+   ========================================================================== */
+.infographic-figure {
+  margin: 28px 0 32px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: var(--shadow-card), 0 10px 40px rgba(0, 0, 0, 0.4);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.infographic-figure:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card), 0 15px 45px rgba(255, 42, 109, 0.15);
+}
+
+.infographic-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: #0f0717;
+}
+
+.infographic-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius);
+  aspect-ratio: 1376 / 768;
+  object-fit: cover;
+}
+
+.infographic-caption {
+  margin-top: 14px;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  text-align: center;
+  line-height: 1.5;
+  padding: 0 8px;
+}
+
+.infographic-caption strong {
+  color: var(--text-main);
+}
+
+.infographic-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 24px 0 28px;
+}
+
+.infographic-step-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.infographic-step-card:hover {
+  border-color: var(--primary);
+  background: rgba(255, 42, 109, 0.05);
+}
+
+.infographic-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+
+.infographic-step-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.infographic-step-desc {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.45;
+  margin: 0;
+}
