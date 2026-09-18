@@ -625,4 +625,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
+
+  // Key Moments Video Navigation
+  const explainerVideo = document.getElementById('explainer-video');
+  if (explainerVideo) {
+    document.querySelectorAll('.key-moment-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const time = parseFloat(btn.getAttribute('data-time') || '0');
+        explainerVideo.currentTime = time;
+        explainerVideo.play().catch(() => {});
+        explainerVideo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    });
+  }
 });
+

@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
     <loc>https://lovecalc.click/</loc>
-    <lastmod>2026-09-13</lastmod>
+    <lastmod>2026-09-18</lastmod>
+    <video:video>
+      <video:thumbnail_loc>https://lovecalc.click/assets/how-it-works-video-poster.jpg</video:thumbnail_loc>
+      <video:title>How Love Calculator Works: 4-Step Deterministic Compatibility Engine</video:title>
+      <video:description>Watch our comprehensive video walkthrough explaining how the Love Calculator algorithm analyzes names, vowel phonetic harmony, zodiac synastry, and deterministic compatibility scoring.</video:description>
+      <video:content_loc>https://lovecalc.click/assets/how-love-calculator-works.mp4</video:content_loc>
+      <video:duration>38</video:duration>
+      <video:publication_date>2026-09-18T11:30:00+05:30</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
   </url>
   <url>
     <loc>https://lovecalc.click/name-compatibility.html</loc>

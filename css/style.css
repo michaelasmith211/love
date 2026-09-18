@@ -1484,3 +1484,195 @@ body {
   line-height: 1.45;
   margin: 0;
 }
+
+/* ==========================================================================
+   Video Showcase & Google Key Moments UX
+   ========================================================================== */
+.video-showcase-container {
+  margin: 2.5rem 0 2rem;
+  padding: 1.75rem;
+  background: rgba(18, 10, 26, 0.65);
+  border: 1px solid rgba(255, 42, 109, 0.25);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.video-showcase-header {
+  margin-bottom: 1.25rem;
+}
+
+.video-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(255, 42, 109, 0.15);
+  border: 1px solid rgba(255, 42, 109, 0.4);
+  border-radius: 20px;
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.video-showcase-header h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.video-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.video-player-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 42, 109, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.explainer-video-player {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  background: #000;
+}
+
+.video-key-moments {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.key-moments-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-right: 0.25rem;
+}
+
+.key-moment-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.key-moment-btn:hover,
+.key-moment-btn:focus-visible {
+  background: rgba(255, 42, 109, 0.25);
+  border-color: var(--primary);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(255, 42, 109, 0.4);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.video-transcript-accordion {
+  margin-top: 1rem;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.video-transcript-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.video-transcript-summary::-webkit-details-marker {
+  display: none;
+}
+
+.video-transcript-summary:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+}
+
+.transcript-toggle-icon {
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.video-transcript-accordion[open] .transcript-toggle-icon {
+  transform: rotate(180deg);
+}
+
+.video-transcript-body {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.transcript-line {
+  margin-bottom: 0.6rem;
+}
+
+.transcript-line:last-child {
+  margin-bottom: 0;
+}
+
+.transcript-time {
+  display: inline-block;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--primary);
+  background: rgba(255, 42, 109, 0.12);
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-right: 6px;
+}
+
+@media (max-width: 768px) {
+  .video-showcase-container {
+    padding: 1rem;
+  }
+  .video-showcase-header h3 {
+    font-size: 1.15rem;
+  }
+  .video-key-moments {
+    padding: 0.5rem;
+    gap: 0.35rem;
+  }
+  .key-moment-btn {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+  }
+}
+
