@@ -6,7 +6,7 @@ import CoreGraphics
 let width = 1280
 let height = 720
 let fps: Int32 = 30
-let totalSeconds: Double = 37.5
+let totalSeconds: Double = 42.0
 let totalFrames = Int(totalSeconds * Double(fps))
 
 let buildDir = "/tmp/video_build"
@@ -30,7 +30,7 @@ let videoSettings: [String: Any] = [
     AVVideoWidthKey: width,
     AVVideoHeightKey: height,
     AVVideoCompressionPropertiesKey: [
-        AVVideoAverageBitRateKey: 1_200_000,
+        AVVideoAverageBitRateKey: 1_400_000,
         AVVideoProfileLevelKey: AVVideoProfileLevelH264HighAutoLevel
     ]
 ]
@@ -61,18 +61,25 @@ guard let pool = adaptor.pixelBufferPool else {
 
 let colorSpace = CGColorSpaceCreateDeviceRGB()
 
-// Helper Drawing Functions
-func drawGlassCard(ctx: CGContext, rect: NSRect, borderColor: NSColor = NSColor(white: 1.0, alpha: 0.15)) {
+// Coordinate Helpers (Upright coordinate translation)
+func yFromTop(_ y: CGFloat) -> CGFloat {
+    return CGFloat(height) - y
+}
+
+func rectFromTop(_ x: CGFloat, _ y: CGFloat, _ w: CGFloat, _ h: CGFloat) -> NSRect {
+    return NSRect(x: x, y: CGFloat(height) - y - h, width: w, height: h)
+}
+
+func drawGlassCard(rect: NSRect, borderColor: NSColor = NSColor(white: 1.0, alpha: 0.15)) {
     let path = NSBezierPath(roundedRect: rect, xRadius: 16, yRadius: 16)
-    NSColor(red: 0.08, green: 0.04, blue: 0.14, alpha: 0.75).setFill()
+    NSColor(red: 0.08, green: 0.04, blue: 0.14, alpha: 0.85).setFill()
     path.fill()
-    
     borderColor.setStroke()
     path.lineWidth = 1.5
     path.stroke()
 }
 
-func drawBadge(text: String, x: CGFloat, y: CGFloat, color: NSColor = NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 1.0)) {
+func drawBadge(text: String, x: CGFloat, yTop: CGFloat, color: NSColor = NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 1.0)) {
     let font = NSFont(name: "HelveticaNeue-Bold", size: 12)!
     let attrs: [NSAttributedString.Key: Any] = [
         .font: font,
@@ -80,7 +87,7 @@ func drawBadge(text: String, x: CGFloat, y: CGFloat, color: NSColor = NSColor(re
     ]
     let str = NSAttributedString(string: text, attributes: attrs)
     let size = str.size()
-    let badgeRect = NSRect(x: x, y: y, width: size.width + 24, height: 28)
+    let badgeRect = rectFromTop(x, yTop, size.width + 24, 28)
     
     let path = NSBezierPath(roundedRect: badgeRect, xRadius: 14, yRadius: 14)
     color.withAlphaComponent(0.15).setFill()
@@ -89,10 +96,10 @@ func drawBadge(text: String, x: CGFloat, y: CGFloat, color: NSColor = NSColor(re
     path.lineWidth = 1
     path.stroke()
     
-    str.draw(at: NSPoint(x: x + 12, y: y + (28 - size.height)/2))
+    str.draw(at: NSPoint(x: x + 12, y: badgeRect.origin.y + (28 - size.height)/2))
 }
 
-func drawCenteredText(text: String, y: CGFloat, fontSize: CGFloat, bold: Bool = false, color: NSColor = .white) {
+func drawCenteredText(text: String, yTop: CGFloat, fontSize: CGFloat, bold: Bool = false, color: NSColor = .white) {
     let font = NSFont(name: bold ? "HelveticaNeue-Bold" : "HelveticaNeue", size: fontSize)!
     let attrs: [NSAttributedString.Key: Any] = [
         .font: font,
@@ -101,12 +108,12 @@ func drawCenteredText(text: String, y: CGFloat, fontSize: CGFloat, bold: Bool = 
     let str = NSAttributedString(string: text, attributes: attrs)
     let size = str.size()
     let x = (CGFloat(width) - size.width) / 2
-    str.draw(at: NSPoint(x: x, y: y))
+    str.draw(at: NSPoint(x: x, y: CGFloat(height) - yTop - size.height))
 }
 
 var posterSaved = false
 
-print("Rendering \(totalFrames) frames at 30fps...")
+print("Rendering \(totalFrames) English frames at 30fps...")
 
 for frameIdx in 0..<totalFrames {
     autoreleasepool {
@@ -133,10 +140,10 @@ for frameIdx in 0..<totalFrames {
             return
         }
         
-        let nsCtx = NSGraphicsContext(cgContext: ctx, flipped: true)
+        let nsCtx = NSGraphicsContext(cgContext: ctx, flipped: false)
         NSGraphicsContext.current = nsCtx
         
-        // 1. Gradient Background
+        // 1. Background
         let bgGradient = NSGradient(colors: [
             NSColor(red: 0.04, green: 0.01, blue: 0.07, alpha: 1.0),
             NSColor(red: 0.10, green: 0.02, blue: 0.16, alpha: 1.0),
@@ -144,7 +151,7 @@ for frameIdx in 0..<totalFrames {
         ])!
         bgGradient.draw(in: NSRect(x: 0, y: 0, width: width, height: height), angle: 45)
         
-        // Background cyber lines
+        // Cyber Grid Lines
         ctx.saveGState()
         for i in 0..<8 {
             let offset = CGFloat(i) * 160.0
@@ -160,222 +167,223 @@ for frameIdx in 0..<totalFrames {
         
         // 2. Persistent Top Header Bar
         let heartIconAttrs: [NSAttributedString.Key: Any] = [
-            .font: NSFont(name: "HelveticaNeue-Bold", size: 20)!,
+            .font: NSFont(name: "HelveticaNeue-Bold", size: 22)!,
             .foregroundColor: NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 1.0)
         ]
-        NSAttributedString(string: "♥ ", attributes: heartIconAttrs).draw(at: NSPoint(x: 80, y: 35))
+        NSAttributedString(string: "♥ ", attributes: heartIconAttrs).draw(at: NSPoint(x: 80, y: yFromTop(55)))
         
         let logoAttrs: [NSAttributedString.Key: Any] = [
             .font: NSFont(name: "HelveticaNeue-Bold", size: 18)!,
             .foregroundColor: NSColor.white
         ]
-        NSAttributedString(string: "LOVECALC.CLICK", attributes: logoAttrs).draw(at: NSPoint(x: 105, y: 36))
+        NSAttributedString(string: "LOVECALC.CLICK", attributes: logoAttrs).draw(at: NSPoint(x: 108, y: yFromTop(52)))
         
         let headerTagAttrs: [NSAttributedString.Key: Any] = [
             .font: NSFont(name: "HelveticaNeue-Medium", size: 12)!,
-            .foregroundColor: NSColor(white: 0.7, alpha: 1.0)
+            .foregroundColor: NSColor(white: 0.75, alpha: 1.0)
         ]
-        let headerTag = NSAttributedString(string: "DETERMINISTIC COMPATIBILITY ENGINE • 2026 EDITION", attributes: headerTagAttrs)
-        headerTag.draw(at: NSPoint(x: CGFloat(width) - 80 - headerTag.size().width, y: 39))
+        let headerTag = NSAttributedString(string: "ENGLISH COMPATIBILITY DEMO: EMMA & LIAM", attributes: headerTagAttrs)
+        headerTag.draw(at: NSPoint(x: CGFloat(width) - 80 - headerTag.size().width, y: yFromTop(52)))
         
         // 3. Scene Content
-        if currentTime < 5.5 {
-            // SCENE 1: Introduction
-            drawBadge(text: "ENGINE ARCHITECTURE", x: 80, y: 90)
-            drawCenteredText(text: "How Does Love Calculator Work?", y: 130, fontSize: 44, bold: true)
-            drawCenteredText(text: "The Science of Deterministic Compatibility & Multi-Script Phonetics", y: 190, fontSize: 20, color: NSColor(white: 0.8, alpha: 1.0))
+        if currentTime < 6.0 {
+            // SCENE 1: Introduction (English Demo)
+            drawBadge(text: "ALGORITHM WALKTHROUGH", x: 80, yTop: 85)
+            drawCenteredText(text: "How Love Calculator Works", yTop: 120, fontSize: 42, bold: true)
+            drawCenteredText(text: "English Compatibility Demonstration: Emma & Liam", yTop: 180, fontSize: 20, color: NSColor(white: 0.8, alpha: 1.0))
             
-            // Center Glassmorphic Graphic
-            let cardRect = NSRect(x: 140, y: 240, width: 1000, height: 350)
-            drawGlassCard(ctx: ctx, rect: cardRect, borderColor: NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 0.4))
+            let cardRect = rectFromTop(140, 230, 1000, 360)
+            drawGlassCard(rect: cardRect, borderColor: NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 0.4))
             
-            // Left Name Box
-            let nameBox1 = NSRect(x: 200, y: 320, width: 260, height: 120)
-            drawGlassCard(ctx: ctx, rect: nameBox1)
-            drawBadge(text: "PARTNER 1", x: 220, y: 335, color: NSColor(red: 0.02, green: 0.85, blue: 0.91, alpha: 1.0))
-            let n1 = NSAttributedString(string: "Alex", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 30)!, .foregroundColor: NSColor.white])
-            n1.draw(at: NSPoint(x: 220, y: 375))
+            // Left Box: Emma
+            let nameBox1 = rectFromTop(200, 290, 260, 140)
+            drawGlassCard(rect: nameBox1)
+            drawBadge(text: "PARTNER 1", x: 220, yTop: 305, color: NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 1.0))
+            let n1 = NSAttributedString(string: "Emma", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 36)!, .foregroundColor: NSColor.white])
+            n1.draw(at: NSPoint(x: 220, y: yFromTop(395)))
             
-            // Right Name Box
-            let nameBox2 = NSRect(x: 820, y: 320, width: 260, height: 120)
-            drawGlassCard(ctx: ctx, rect: nameBox2)
-            drawBadge(text: "PARTNER 2", x: 840, y: 335, color: NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 1.0))
-            let n2 = NSAttributedString(string: "Jordan", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 30)!, .foregroundColor: NSColor.white])
-            n2.draw(at: NSPoint(x: 840, y: 375))
+            // Right Box: Liam
+            let nameBox2 = rectFromTop(820, 290, 260, 140)
+            drawGlassCard(rect: nameBox2)
+            drawBadge(text: "PARTNER 2", x: 840, yTop: 305, color: NSColor(red: 0.05, green: 0.85, blue: 0.91, alpha: 1.0))
+            let n2 = NSAttributedString(string: "Liam", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 36)!, .foregroundColor: NSColor.white])
+            n2.draw(at: NSPoint(x: 840, y: yFromTop(395)))
             
-            // Center Pulsing Heart
+            // Pulsing Heart Center
             let heartPulse = 1.0 + sin(currentTime * 4.0) * 0.08
             ctx.saveGState()
             let hSize: CGFloat = 80 * heartPulse
-            let hRect = NSRect(x: CGFloat(width)/2 - hSize/2, y: 380 - hSize/2, width: hSize, height: hSize)
+            let hCenter = CGPoint(x: CGFloat(width)/2, y: yFromTop(360))
             ctx.setShadow(offset: .zero, blur: 30, color: NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 0.9).cgColor)
             let heartStr = NSAttributedString(string: "♥", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 68 * heartPulse)!, .foregroundColor: NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 1.0)])
-            heartStr.draw(at: NSPoint(x: hRect.origin.x, y: hRect.origin.y - 15))
+            heartStr.draw(at: NSPoint(x: hCenter.x - heartStr.size().width/2, y: hCenter.y - heartStr.size().height/2))
             ctx.restoreGState()
             
             // Connecting energy beam
             let beam = NSBezierPath()
-            beam.move(to: NSPoint(x: 460, y: 380))
-            beam.line(to: NSPoint(x: 820, y: 380))
+            beam.move(to: NSPoint(x: 460, y: yFromTop(360)))
+            beam.line(to: NSPoint(x: 820, y: yFromTop(360)))
             NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 0.4).setStroke()
             beam.lineWidth = 3
             beam.stroke()
             
-            // Feature Highlights
-            let f1 = "🔒 100% Client-Side Engine"
-            let f2 = "⚡ SHA-Deterministic Hash"
-            let f3 = "🌍 40 Global Languages"
-            let fAttrs: [NSAttributedString.Key: Any] = [.font: NSFont(name: "HelveticaNeue-Medium", size: 14)!, .foregroundColor: NSColor(white: 0.85, alpha: 1.0)]
-            NSAttributedString(string: "\(f1)     •     \(f2)     •     \(f3)", attributes: fAttrs).draw(at: NSPoint(x: 340, y: 520))
+            // Tags
+            let fAttrs: [NSAttributedString.Key: Any] = [.font: NSFont(name: "HelveticaNeue-Medium", size: 15)!, .foregroundColor: NSColor(white: 0.85, alpha: 1.0)]
+            let tagStr = NSAttributedString(string: "🔒 100% Client-Side Engine     •     ⚡ Deterministic Algorithm     •     🇬🇧 English Demo", attributes: fAttrs)
+            tagStr.draw(at: NSPoint(x: CGFloat(width)/2 - tagStr.size().width/2, y: yFromTop(525)))
             
-        } else if currentTime < 12.0 {
-            // SCENE 2: Step 1 Tokenization
-            drawBadge(text: "STEP 01 OF 04", x: 80, y: 90)
-            drawCenteredText(text: "Input Normalization & Universal Tokenization", y: 130, fontSize: 38, bold: true)
-            drawCenteredText(text: "Sanitizes and tokenizes names across all global Unicode scripts", y: 185, fontSize: 18, color: NSColor(white: 0.8, alpha: 1.0))
+        } else if currentTime < 13.0 {
+            // SCENE 2: Step 1 Input Demonstration (Emma & Liam)
+            drawBadge(text: "STEP 01 OF 04", x: 80, yTop: 85)
+            drawCenteredText(text: "Step 1: Input Names Demonstration", yTop: 120, fontSize: 38, bold: true)
+            drawCenteredText(text: "Entering English names 'Emma' & 'Liam' into the compatibility engine", yTop: 175, fontSize: 18, color: NSColor(white: 0.8, alpha: 1.0))
             
-            let cardRect = NSRect(x: 140, y: 230, width: 1000, height: 380)
-            drawGlassCard(ctx: ctx, rect: cardRect)
+            let cardRect = rectFromTop(140, 220, 1000, 400)
+            drawGlassCard(rect: cardRect)
             
-            // Scripts banner
-            let scriptBadges = ["Latin: Alex", "Arabic: أحمد", "Devanagari: राहुल", "Cyrillic: Анна", "Kanji: 陽葵"]
-            for (idx, tag) in scriptBadges.enumerated() {
-                drawBadge(text: tag, x: 180 + CGFloat(idx) * 185, y: 260, color: NSColor(red: 0.05, green: 0.85, blue: 0.91, alpha: 1.0))
-            }
+            // Partner input badges
+            let input1 = rectFromTop(180, 250, 440, 70)
+            drawGlassCard(rect: input1, borderColor: NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 0.5))
+            drawBadge(text: "PARTNER 1 INPUT", x: 200, yTop: 260, color: NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 1.0))
+            NSAttributedString(string: "Emma   [ E • M • M • A ]", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 18)!, .foregroundColor: NSColor.white]).draw(at: NSPoint(x: 200, y: yFromTop(308)))
             
-            // Terminal steps
+            let input2 = rectFromTop(660, 250, 440, 70)
+            drawGlassCard(rect: input2, borderColor: NSColor(red: 0.05, green: 0.85, blue: 0.91, alpha: 0.5))
+            drawBadge(text: "PARTNER 2 INPUT", x: 680, yTop: 260, color: NSColor(red: 0.05, green: 0.85, blue: 0.91, alpha: 1.0))
+            NSAttributedString(string: "Liam   [ L • I • A • M ]", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 18)!, .foregroundColor: NSColor.white]).draw(at: NSPoint(x: 680, y: yFromTop(308)))
+            
             let steps = [
-                ("✓ Unicode Canonical Decomposition", "Strips diacritics and unifies character encodings (NFC/NFD)"),
-                ("✓ Lexical Frequency Matrix", "Counts character frequencies across both partner strings"),
-                ("✓ Case & Whitespace Sanitization", "Eliminates emojis, symbols, and formatting discrepancies"),
-                ("✓ 100% In-Memory Processing", "Zero names are ever transmitted to a server or stored in a database")
+                ("✓ English Letter Tokenization", "Characters parsed: 8 letters total (E, M, M, A + L, I, A, M)"),
+                ("✓ Case & Space Normalization", "Names converted to standard uniform case for exact reproducibility"),
+                ("✓ Letter Frequency Distribution", "Calculates lexical balance and character distribution matrix"),
+                ("✓ 100% In-Memory Privacy", "Processed entirely inside your browser with zero data sent to servers")
             ]
             
             for (i, item) in steps.enumerated() {
-                let yPos = 320 + CGFloat(i) * 65
-                let box = NSRect(x: 180, y: yPos, width: 920, height: 50)
-                drawGlassCard(ctx: ctx, rect: box, borderColor: NSColor(white: 1.0, alpha: 0.08))
+                let yTopBox = 340 + CGFloat(i) * 62
+                let box = rectFromTop(180, yTopBox, 920, 48)
+                drawGlassCard(rect: box, borderColor: NSColor(white: 1.0, alpha: 0.08))
                 
-                let titleAttr = NSAttributedString(string: item.0, attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 16)!, .foregroundColor: NSColor(red: 0.05, green: 0.85, blue: 0.91, alpha: 1.0)])
-                titleAttr.draw(at: NSPoint(x: 205, y: yPos + 8))
+                let titleAttr = NSAttributedString(string: item.0, attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 15)!, .foregroundColor: NSColor(red: 0.05, green: 0.85, blue: 0.91, alpha: 1.0)])
+                titleAttr.draw(at: NSPoint(x: 205, y: yFromTop(yTopBox + 22)))
                 
-                let descAttr = NSAttributedString(string: item.1, attributes: [.font: NSFont(name: "HelveticaNeue", size: 14)!, .foregroundColor: NSColor(white: 0.8, alpha: 1.0)])
-                descAttr.draw(at: NSPoint(x: 205, y: yPos + 28))
+                let descAttr = NSAttributedString(string: item.1, attributes: [.font: NSFont(name: "HelveticaNeue", size: 13)!, .foregroundColor: NSColor(white: 0.8, alpha: 1.0)])
+                descAttr.draw(at: NSPoint(x: 205, y: yFromTop(yTopBox + 40)))
             }
             
-        } else if currentTime < 18.5 {
-            // SCENE 3: Step 2 Phonetic & Vowel Harmony
-            drawBadge(text: "STEP 02 OF 04", x: 80, y: 90)
-            drawCenteredText(text: "Phonetic & Vowel Acoustic Harmony", y: 130, fontSize: 38, bold: true)
-            drawCenteredText(text: "Measures linguistic sonority, vowel cadence, and acoustic resonance", y: 185, fontSize: 18, color: NSColor(white: 0.8, alpha: 1.0))
+        } else if currentTime < 20.0 {
+            // SCENE 3: Step 2 Phonetic & Vowel Harmony (Emma & Liam)
+            drawBadge(text: "STEP 02 OF 04", x: 80, yTop: 85)
+            drawCenteredText(text: "Step 2: Phonetic & Vowel Harmony Matrix", yTop: 120, fontSize: 38, bold: true)
+            drawCenteredText(text: "Analyzing acoustic vowel flow and linguistic rhythm between Emma and Liam", yTop: 175, fontSize: 18, color: NSColor(white: 0.8, alpha: 1.0))
             
-            let cardRect = NSRect(x: 140, y: 230, width: 1000, height: 380)
-            drawGlassCard(ctx: ctx, rect: cardRect)
+            let cardRect = rectFromTop(140, 220, 1000, 400)
+            drawGlassCard(rect: cardRect)
             
-            // Left Box: Waveform
-            let waveBox = NSRect(x: 180, y: 260, width: 440, height: 320)
-            drawGlassCard(ctx: ctx, rect: waveBox)
-            drawBadge(text: "ACOUSTIC WAVEFORM HARMONY", x: 200, y: 280, color: NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 1.0))
+            // Left Card: Waveform
+            let waveBox = rectFromTop(180, 250, 440, 340)
+            drawGlassCard(rect: waveBox)
+            drawBadge(text: "ACOUSTIC WAVEFORM HARMONY", x: 200, yTop: 270, color: NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 1.0))
             
-            // Draw animated soundwave
             ctx.saveGState()
             for i in 0..<20 {
                 let xBar = 210 + CGFloat(i) * 19
                 let waveH = 30 + sin(currentTime * 6.0 + Double(i) * 0.4) * 45 + cos(Double(i) * 0.8) * 30
-                let barRect = NSRect(x: xBar, y: 450 - waveH/2, width: 10, height: max(10, waveH))
+                let barRect = rectFromTop(xBar, 440 - waveH/2, 10, max(10, waveH))
                 NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 0.75).setFill()
                 NSBezierPath(roundedRect: barRect, xRadius: 4, yRadius: 4).fill()
             }
             ctx.restoreGState()
             
-            NSAttributedString(string: "Acoustic Resonance Index: 92.4%", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 16)!, .foregroundColor: NSColor.white]).draw(at: NSPoint(x: 210, y: 530))
+            NSAttributedString(string: "Acoustic Resonance: +94.2%", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 16)!, .foregroundColor: NSColor.white]).draw(at: NSPoint(x: 210, y: yFromTop(545)))
             
-            // Right Box: Vowel Distribution
-            let vowelBox = NSRect(x: 660, y: 260, width: 440, height: 320)
-            drawGlassCard(ctx: ctx, rect: vowelBox)
-            drawBadge(text: "VOWEL RATIO ANALYSIS", x: 680, y: 280, color: NSColor(red: 0.05, green: 0.85, blue: 0.91, alpha: 1.0))
+            // Right Card: Vowel Matrix
+            let vowelBox = rectFromTop(660, 250, 440, 340)
+            drawGlassCard(rect: vowelBox)
+            drawBadge(text: "ENGLISH VOWEL RATIO ANALYSIS", x: 680, yTop: 270, color: NSColor(red: 0.05, green: 0.85, blue: 0.91, alpha: 1.0))
             
-            let vowels = [("A", "High Open Vowel", "94%"), ("E", "Mid Front Vowel", "88%"), ("I", "Close Front Vowel", "91%"), ("O", "Back Rounded Vowel", "85%"), ("U", "Close Back Vowel", "96%")]
-            for (idx, v) in vowels.enumerated() {
-                let yV = 325 + CGFloat(idx) * 46
-                NSAttributedString(string: v.0, attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 20)!, .foregroundColor: NSColor(red: 0.05, green: 0.85, blue: 0.91, alpha: 1.0)]).draw(at: NSPoint(x: 690, y: yV))
-                NSAttributedString(string: v.1, attributes: [.font: NSFont(name: "HelveticaNeue", size: 13)!, .foregroundColor: NSColor(white: 0.75, alpha: 1.0)]).draw(at: NSPoint(x: 725, y: yV + 4))
-                NSAttributedString(string: v.2, attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 14)!, .foregroundColor: NSColor.white]).draw(at: NSPoint(x: 1040, y: yV + 4))
-            }
-            
-        } else if currentTime < 25.0 {
-            // SCENE 4: Step 3 Zodiac Synastry & Numerology
-            drawBadge(text: "STEP 03 OF 04", x: 80, y: 90)
-            drawCenteredText(text: "Astrological Synastry & Numerology", y: 130, fontSize: 38, bold: true)
-            drawCenteredText(text: "Synthesizes elemental affinities with Pythagorean Life Path reduction", y: 185, fontSize: 18, color: NSColor(white: 0.8, alpha: 1.0))
-            
-            let cardRect = NSRect(x: 140, y: 230, width: 1000, height: 380)
-            drawGlassCard(ctx: ctx, rect: cardRect)
-            
-            // Left Box: Zodiac Synastry
-            let zodBox = NSRect(x: 180, y: 260, width: 440, height: 320)
-            drawGlassCard(ctx: ctx, rect: zodBox)
-            drawBadge(text: "ZODIAC ELEMENTAL SYNERGY", x: 200, y: 280, color: NSColor(red: 1.0, green: 0.6, blue: 0.0, alpha: 1.0))
-            
-            let z1 = "Partner 1: Leo ♌ (Fire Element)"
-            let z2 = "Partner 2: Sagittarius ♐ (Fire Element)"
-            NSAttributedString(string: z1, attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 16)!, .foregroundColor: NSColor.white]).draw(at: NSPoint(x: 205, y: 330))
-            NSAttributedString(string: z2, attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 16)!, .foregroundColor: NSColor.white]).draw(at: NSPoint(x: 205, y: 365))
-            
-            let synastryItems = [
-                ("Trine Aspect (120° Angle)", "Maximum Cosmic Harmony"),
-                ("Shared Fire Element", "High Creative & Passion Energy"),
-                ("Astrological Affinity Rating", "96% Elemental Synastry")
+            let vData = [
+                ("Emma Vowels", "E (Mid-Front) + A (Open Front)", "High Cadence"),
+                ("Liam Vowels", "I (Close-Front) + A (Open Front)", "High Cadence"),
+                ("Shared 'A' Resonance", "Mutual harmonic vowel lock", "+18% Synergy"),
+                ("Phonetic Bouba/Kiki", "Soft liquid 'm' + 'l' consonants", "95% Warmth"),
+                ("Overall Acoustic Score", "Seamless phonetic pronunciation flow", "94% Match")
             ]
-            for (idx, item) in synastryItems.enumerated() {
-                let yItem = 420 + CGFloat(idx) * 45
-                NSAttributedString(string: "• \(item.0):", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 13)!, .foregroundColor: NSColor(red: 1.0, green: 0.6, blue: 0.0, alpha: 1.0)]).draw(at: NSPoint(x: 205, y: yItem))
-                NSAttributedString(string: item.1, attributes: [.font: NSFont(name: "HelveticaNeue", size: 13)!, .foregroundColor: NSColor(white: 0.8, alpha: 1.0)]).draw(at: NSPoint(x: 215, y: yItem + 18))
+            for (idx, v) in vData.enumerated() {
+                let yV = 320 + CGFloat(idx) * 50
+                NSAttributedString(string: v.0, attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 14)!, .foregroundColor: NSColor(red: 0.05, green: 0.85, blue: 0.91, alpha: 1.0)]).draw(at: NSPoint(x: 680, y: yFromTop(yV + 15)))
+                NSAttributedString(string: "\(v.1) — \(v.2)", attributes: [.font: NSFont(name: "HelveticaNeue", size: 13)!, .foregroundColor: NSColor.white]).draw(at: NSPoint(x: 680, y: yFromTop(yV + 35)))
             }
             
-            // Right Box: Numerology
-            let numBox = NSRect(x: 660, y: 260, width: 440, height: 320)
-            drawGlassCard(ctx: ctx, rect: numBox)
-            drawBadge(text: "PYTHAGOREAN NUMEROLOGY", x: 680, y: 280, color: NSColor(red: 0.7, green: 0.3, blue: 0.95, alpha: 1.0))
+        } else if currentTime < 27.5 {
+            // SCENE 4: Step 3 Zodiac Synastry & Numerology
+            drawBadge(text: "STEP 03 OF 04", x: 80, yTop: 85)
+            drawCenteredText(text: "Step 3: Zodiac & Numerology Synastry", yTop: 120, fontSize: 38, bold: true)
+            drawCenteredText(text: "Astrological elemental harmony and Pythagorean Life Path numbers", yTop: 175, fontSize: 18, color: NSColor(white: 0.8, alpha: 1.0))
+            
+            let cardRect = rectFromTop(140, 220, 1000, 400)
+            drawGlassCard(rect: cardRect)
+            
+            // Left Card: Zodiac Synastry
+            let zodBox = rectFromTop(180, 250, 440, 340)
+            drawGlassCard(rect: zodBox)
+            drawBadge(text: "ZODIAC ELEMENTAL SYNERGY", x: 200, yTop: 270, color: NSColor(red: 1.0, green: 0.6, blue: 0.0, alpha: 1.0))
+            
+            NSAttributedString(string: "Emma: Aries ♈ (Fire Element)", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 16)!, .foregroundColor: NSColor.white]).draw(at: NSPoint(x: 205, y: yFromTop(330)))
+            NSAttributedString(string: "Liam: Sagittarius ♐ (Fire Element)", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 16)!, .foregroundColor: NSColor.white]).draw(at: NSPoint(x: 205, y: yFromTop(360)))
+            
+            let zInfo = [
+                ("Trine Aspect (120° Angle)", "Cosmic alignment for high natural harmony"),
+                ("Dual Fire Sign Synergy", "Shared enthusiasm, adventure, and mutual drive"),
+                ("Astrological Affinity", "96% Elemental Synastry Match")
+            ]
+            for (idx, item) in zInfo.enumerated() {
+                let yItem = 405 + CGFloat(idx) * 46
+                NSAttributedString(string: "• \(item.0):", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 13)!, .foregroundColor: NSColor(red: 1.0, green: 0.6, blue: 0.0, alpha: 1.0)]).draw(at: NSPoint(x: 205, y: yFromTop(yItem + 14)))
+                NSAttributedString(string: item.1, attributes: [.font: NSFont(name: "HelveticaNeue", size: 13)!, .foregroundColor: NSColor(white: 0.85, alpha: 1.0)]).draw(at: NSPoint(x: 215, y: yFromTop(yItem + 30)))
+            }
+            
+            // Right Card: Numerology
+            let numBox = rectFromTop(660, 250, 440, 340)
+            drawGlassCard(rect: numBox)
+            drawBadge(text: "PYTHAGOREAN NUMEROLOGY", x: 680, yTop: 270, color: NSColor(red: 0.7, green: 0.3, blue: 0.95, alpha: 1.0))
             
             let nInfo = [
-                ("Partner 1 Life Path", "7 (The Intuitive Seeker)"),
-                ("Partner 2 Life Path", "3 (The Creative Communicator)"),
-                ("Vibrational Harmonic", "Master Number Concordance"),
+                ("Emma: Life Path 3", "The Creative, Expressive Communicator"),
+                ("Liam: Life Path 9", "The Compassionate, Visionary Leader"),
+                ("Vibrational Harmonic", "3 and 9 form a classic Creative Harmony pair"),
                 ("Numerological Synergy", "+14.2% Boost to Compatibility")
             ]
             for (idx, item) in nInfo.enumerated() {
                 let yItem = 330 + CGFloat(idx) * 58
-                NSAttributedString(string: item.0, attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 14)!, .foregroundColor: NSColor(red: 0.7, green: 0.3, blue: 0.95, alpha: 1.0)]).draw(at: NSPoint(x: 690, y: yItem))
-                NSAttributedString(string: item.1, attributes: [.font: NSFont(name: "HelveticaNeue", size: 15)!, .foregroundColor: NSColor.white]).draw(at: NSPoint(x: 690, y: yItem + 20))
+                NSAttributedString(string: item.0, attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 14)!, .foregroundColor: NSColor(red: 0.7, green: 0.3, blue: 0.95, alpha: 1.0)]).draw(at: NSPoint(x: 690, y: yFromTop(yItem + 16)))
+                NSAttributedString(string: item.1, attributes: [.font: NSFont(name: "HelveticaNeue", size: 14)!, .foregroundColor: NSColor.white]).draw(at: NSPoint(x: 690, y: yFromTop(yItem + 36)))
             }
             
-        } else if currentTime < 31.5 {
-            // SCENE 5: Step 4 Deterministic Score Compilation
-            drawBadge(text: "STEP 04 OF 04", x: 80, y: 90)
-            drawCenteredText(text: "Deterministic Compatibility Score", y: 130, fontSize: 38, bold: true)
-            drawCenteredText(text: "Reproducible mathematical synthesis yields an exact compatibility breakdown", y: 185, fontSize: 18, color: NSColor(white: 0.8, alpha: 1.0))
+        } else if currentTime < 35.0 {
+            // SCENE 5: Step 4 Final Result (88% Passionate Soulmates)
+            drawBadge(text: "STEP 04 OF 04", x: 80, yTop: 85)
+            drawCenteredText(text: "Emma & Liam: Compatibility Result", yTop: 120, fontSize: 38, bold: true)
+            drawCenteredText(text: "Deterministic algorithm yields an exact 88% compatibility breakdown", yTop: 175, fontSize: 18, color: NSColor(white: 0.8, alpha: 1.0))
             
-            let cardRect = NSRect(x: 140, y: 230, width: 1000, height: 380)
-            drawGlassCard(ctx: ctx, rect: cardRect, borderColor: NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 0.5))
+            let cardRect = rectFromTop(140, 220, 1000, 390)
+            drawGlassCard(rect: cardRect, borderColor: NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 0.5))
             
-            // Center score gauge animation
-            let scoreProgress = min(1.0, (currentTime - 25.0) / 2.5)
+            // Score progress animation
+            let scoreProgress = min(1.0, (currentTime - 27.5) / 2.5)
             let currentScore = Int(Double(88) * scoreProgress)
             
-            // Left circular score display
-            let centerGauge = CGPoint(x: 360, y: 410)
+            // Left: Circular Gauge
+            let centerGauge = CGPoint(x: 360, y: yFromTop(415))
             ctx.saveGState()
             ctx.setShadow(offset: .zero, blur: 25, color: NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 0.8).cgColor)
             
-            // Background arc
             let bgCircle = NSBezierPath()
             bgCircle.appendArc(withCenter: centerGauge, radius: 95, startAngle: 0, endAngle: 360)
             NSColor(white: 1.0, alpha: 0.08).setStroke()
             bgCircle.lineWidth = 12
             bgCircle.stroke()
             
-            // Animated arc
             let endAngle = 90.0 - (Double(currentScore) / 100.0) * 360.0
             let scoreArc = NSBezierPath()
             scoreArc.appendArc(withCenter: centerGauge, radius: 95, startAngle: 90, endAngle: CGFloat(endAngle), clockwise: true)
@@ -385,44 +393,41 @@ for frameIdx in 0..<totalFrames {
             scoreArc.stroke()
             ctx.restoreGState()
             
-            // Large Score Text
-            let scoreText = "\(currentScore)%"
-            let scoreStr = NSAttributedString(string: scoreText, attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 54)!, .foregroundColor: NSColor.white])
-            scoreStr.draw(at: NSPoint(x: centerGauge.x - scoreStr.size().width/2, y: centerGauge.y - 35))
+            let scoreStr = NSAttributedString(string: "\(currentScore)%", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 54)!, .foregroundColor: NSColor.white])
+            scoreStr.draw(at: NSPoint(x: centerGauge.x - scoreStr.size().width/2, y: centerGauge.y - 20))
             
             let tierStr = NSAttributedString(string: "Passionate Soulmates", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 16)!, .foregroundColor: NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 1.0)])
-            tierStr.draw(at: NSPoint(x: centerGauge.x - tierStr.size().width/2, y: centerGauge.y + 25))
+            tierStr.draw(at: NSPoint(x: centerGauge.x - tierStr.size().width/2, y: centerGauge.y - 130))
             
-            // Right Sub-metrics breakdown
+            // Right: Metric Bars
             let metrics = [
                 ("Romance & Chemistry", 94, NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 1.0)),
                 ("Emotional Communication", 88, NSColor(red: 0.05, green: 0.85, blue: 0.91, alpha: 1.0)),
                 ("Long-Term Stability", 86, NSColor(red: 0.7, green: 0.3, blue: 0.95, alpha: 1.0)),
-                ("Intellectual Synergy", 90, NSColor(red: 1.0, green: 0.75, blue: 0.1, alpha: 1.0))
+                ("Trust & Loyalty", 90, NSColor(red: 1.0, green: 0.75, blue: 0.1, alpha: 1.0))
             ]
             
             for (idx, m) in metrics.enumerated() {
-                let yM = 270 + CGFloat(idx) * 75
-                NSAttributedString(string: m.0, attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 15)!, .foregroundColor: NSColor.white]).draw(at: NSPoint(x: 580, y: yM))
+                let yTopBar = 260 + CGFloat(idx) * 75
+                let titleStr = NSAttributedString(string: m.0, attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 15)!, .foregroundColor: NSColor.white])
+                titleStr.draw(at: NSPoint(x: 580, y: yFromTop(yTopBar + 18)))
                 
                 let scoreVal = Int(Double(m.1) * scoreProgress)
                 let pctVal = NSAttributedString(string: "\(scoreVal)%", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 15)!, .foregroundColor: m.2])
-                pctVal.draw(at: NSPoint(x: 1040 - pctVal.size().width, y: yM))
+                pctVal.draw(at: NSPoint(x: 1040 - pctVal.size().width, y: yFromTop(yTopBar + 18)))
                 
-                // Progress Bar Background
-                let barBg = NSRect(x: 580, y: yM + 26, width: 460, height: 10)
+                let barBg = rectFromTop(580, yTopBar + 28, 460, 10)
                 NSColor(white: 1.0, alpha: 0.08).setFill()
                 NSBezierPath(roundedRect: barBg, xRadius: 5, yRadius: 5).fill()
                 
-                // Filled progress bar
                 let fillW = CGFloat(scoreVal) / 100.0 * 460.0
-                let barFill = NSRect(x: 580, y: yM + 26, width: fillW, height: 10)
+                let barFill = rectFromTop(580, yTopBar + 28, fillW, 10)
                 m.2.setFill()
                 NSBezierPath(roundedRect: barFill, xRadius: 5, yRadius: 5).fill()
             }
             
-            // Save frame as poster at 28.0s
-            if !posterSaved && currentTime >= 28.0 {
+            // Save frame as poster if at 31.0s
+            if !posterSaved && currentTime >= 31.0 {
                 if let cgImg = ctx.makeImage() {
                     let dest = CGImageDestinationCreateWithURL(posterURL as CFURL, "public.jpeg" as CFString, 1, nil)!
                     let options: [CFString: Any] = [kCGImageDestinationLossyCompressionQuality: 0.9]
@@ -435,58 +440,51 @@ for frameIdx in 0..<totalFrames {
             
         } else {
             // SCENE 6: Outro & Call to Action
-            drawBadge(text: "ENTERPRISE-GRADE PRIVACY", x: 80, y: 90, color: NSColor(red: 0.05, green: 0.85, blue: 0.91, alpha: 1.0))
-            drawCenteredText(text: "100% Private, Client-Side Engine", y: 130, fontSize: 40, bold: true)
-            drawCenteredText(text: "Zero names or dates are ever transmitted to or stored on any server", y: 190, fontSize: 20, color: NSColor(white: 0.8, alpha: 1.0))
+            drawBadge(text: "ENTERPRISE-GRADE PRIVACY", x: 80, yTop: 85, color: NSColor(red: 0.05, green: 0.85, blue: 0.91, alpha: 1.0))
+            drawCenteredText(text: "100% Private, Client-Side Engine", yTop: 120, fontSize: 40, bold: true)
+            drawCenteredText(text: "Zero names, birthdays, or scores are ever transmitted to or stored on servers", yTop: 180, fontSize: 18, color: NSColor(white: 0.8, alpha: 1.0))
             
-            let cardRect = NSRect(x: 200, y: 240, width: 880, height: 350)
-            drawGlassCard(ctx: ctx, rect: cardRect, borderColor: NSColor(red: 0.05, green: 0.85, blue: 0.91, alpha: 0.4))
+            let cardRect = rectFromTop(200, 230, 880, 360)
+            drawGlassCard(rect: cardRect, borderColor: NSColor(red: 0.05, green: 0.85, blue: 0.91, alpha: 0.4))
             
-            // Shield and Lock Icon
-            let shieldStr = NSAttributedString(string: "🛡️  🔒  ♥", attributes: [.font: NSFont(name: "HelveticaNeue", size: 48)!])
-            shieldStr.draw(at: NSPoint(x: CGFloat(width)/2 - shieldStr.size().width/2, y: 275))
+            let shieldStr = NSAttributedString(string: "🛡️   🔒   ♥", attributes: [.font: NSFont(name: "HelveticaNeue", size: 48)!])
+            shieldStr.draw(at: NSPoint(x: CGFloat(width)/2 - shieldStr.size().width/2, y: yFromTop(320)))
             
-            // Large Call to Action Button
-            let ctaRect = NSRect(x: 320, y: 370, width: 640, height: 75)
+            let ctaRect = rectFromTop(320, 360, 640, 75)
             ctx.saveGState()
             ctx.setShadow(offset: .zero, blur: 30, color: NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 0.8).cgColor)
             NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 1.0).setFill()
             NSBezierPath(roundedRect: ctaRect, xRadius: 37.5, yRadius: 37.5).fill()
             ctx.restoreGState()
             
-            let ctaText = NSAttributedString(string: "Calculate Your Match 👉 lovecalc.click", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 24)!, .foregroundColor: NSColor.white])
-            ctaText.draw(at: NSPoint(x: CGFloat(width)/2 - ctaText.size().width/2, y: 393))
+            let ctaText = NSAttributedString(string: "Calculate Your English Match 👉 lovecalc.click", attributes: [.font: NSFont(name: "HelveticaNeue-Bold", size: 24)!, .foregroundColor: NSColor.white])
+            ctaText.draw(at: NSPoint(x: CGFloat(width)/2 - ctaText.size().width/2, y: yFromTop(408)))
             
-            // Social Trust Indicators
-            let trustText = "★ 4.9 / 5 Rating (14,800+ Verified Couples)  •  40 Languages Supported"
+            let trustText = "★ 4.9 / 5 Rating (14,800+ Verified Couples)  •  English Compatibility Edition"
             let trustStr = NSAttributedString(string: trustText, attributes: [.font: NSFont(name: "HelveticaNeue-Medium", size: 16)!, .foregroundColor: NSColor(white: 0.85, alpha: 1.0)])
-            trustStr.draw(at: NSPoint(x: CGFloat(width)/2 - trustStr.size().width/2, y: 490))
+            trustStr.draw(at: NSPoint(x: CGFloat(width)/2 - trustStr.size().width/2, y: yFromTop(515)))
         }
         
         // 4. Bottom Progress Bar & Timeline
-        let timelineY: CGFloat = 680
         let timelineW: CGFloat = 1120
         let timelineX: CGFloat = 80
         
-        // Background track
-        let trackRect = NSRect(x: timelineX, y: timelineY, width: timelineW, height: 4)
+        let trackRect = rectFromTop(timelineX, 665, timelineW, 4)
         NSColor(white: 1.0, alpha: 0.12).setFill()
         NSBezierPath(roundedRect: trackRect, xRadius: 2, yRadius: 2).fill()
         
-        // Filled track
         let progress = CGFloat(currentTime / totalSeconds)
-        let fillRect = NSRect(x: timelineX, y: timelineY, width: timelineW * progress, height: 4)
+        let fillRect = rectFromTop(timelineX, 665, timelineW * progress, 4)
         NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 1.0).setFill()
         NSBezierPath(roundedRect: fillRect, xRadius: 2, yRadius: 2).fill()
         
-        // Step indicator labels
-        let stepLabels = [
+        let stepLabels: [(String, Double)] = [
             ("Intro", 0.0),
-            ("1. Tokenize", 5.5),
-            ("2. Harmony", 12.0),
-            ("3. Synastry", 18.5),
-            ("4. Score", 25.0),
-            ("Privacy", 31.5)
+            ("1. Input", 6.0),
+            ("2. Harmony", 13.0),
+            ("3. Synastry", 20.0),
+            ("4. Score", 27.5),
+            ("Privacy", 35.0)
         ]
         
         for item in stepLabels {
@@ -494,7 +492,7 @@ for frameIdx in 0..<totalFrames {
             let isPast = currentTime >= item.1
             let pipColor = isPast ? NSColor(red: 1.0, green: 0.16, blue: 0.43, alpha: 1.0) : NSColor(white: 0.4, alpha: 1.0)
             pipColor.setFill()
-            NSBezierPath(ovalIn: NSRect(x: itemX - 3, y: timelineY - 2, width: 8, height: 8)).fill()
+            NSBezierPath(ovalIn: NSRect(x: itemX - 3, y: trackRect.origin.y - 2, width: 8, height: 8)).fill()
         }
         
         CVPixelBufferUnlockBaseAddress(buffer, [])
@@ -505,7 +503,7 @@ for frameIdx in 0..<totalFrames {
         }
         adaptor.append(buffer, withPresentationTime: presentationTime)
         
-        if frameIdx % 150 == 0 {
+        if frameIdx % 200 == 0 {
             print("Rendered frame \(frameIdx)/\(totalFrames) (\(Int(Double(frameIdx)/Double(totalFrames)*100))%)")
         }
     }
